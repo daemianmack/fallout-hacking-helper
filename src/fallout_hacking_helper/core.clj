@@ -16,9 +16,9 @@
   (doseq [[word rels] relations
           :let [_ (println (grey word))]
           [cnt rels] (group-by first rels)
-          :let [_ (print (grey (format "%s%s " 
+          :let [_ (print (grey (format "%s%s "
                                        (join "" (repeat (inc (count word)) " "))
-                                       cnt)))]] 
+                                       cnt)))]]
     (println (grey (join " " (map second rels))))))
 
 (defn best-candidate
