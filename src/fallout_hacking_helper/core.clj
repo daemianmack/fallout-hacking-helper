@@ -25,10 +25,36 @@
   "Given...
     #{dog dub dot cat}
   produce...
-    '([dog [[0 cat][1 dub][2 dot]]]  ;; Three intersection counts (0,1,2).
+    '([dog [[0 cat][1 dub][2 dot]]]  ;; Three distinct intersection-group counts (0,1,2).
       [dot [[1 dub][1 cat][2 dog]]]  ;; Two (1,2).
       [cat [[0 dog][0 dub][1 dot]]]) ;; Two (0,1).
-  returning the pair with the highest number of distinct intersection counts."
+  returning the pair with the highest number of distinct intersection-group counts.
+
+  Optimal outcome: we manage to find a word with the greatest number
+  of intersection groups, sorting the candidates into groups as small
+  as possible, so that when the Fallout game computer reports the
+  number of letters that are correct, we minimize the search space by
+  as much as possible. i.e.,
+
+    dub
+        0 cat
+        1 dog dot
+    dot
+        1 cat dub
+        2 dog
+    cat
+        0 dog dub
+        1 dot
+    dog
+        0 cat
+        1 dub
+        2 dot
+
+  Here, dog is the best first choice because it relates to the other
+  candidates options across the greatest number of intersection
+  groups, each of which is as shallow as possible (and in this toy
+  example would produce a win in 2 moves, since each group narrows the
+  space to a single obvious choice)."
   [words]
   (let [tree (apply merge-with (comp sort into)
                     (for [a words
