@@ -1,7 +1,7 @@
 (ns fallout-hacking-helper.core
   (:require [clojure.pprint :as pp]
             [clojure.set :as s]
-            [clojure.string :refer [join]]))
+            [clojure.string :refer [join split]]))
 
 
 (defn likeness [a b] (count (filter identity (map = a b))))
@@ -43,7 +43,7 @@
   (assert (apply = (map count words)) "All words must be the same length.")
   words)
 
-(defn get-words [] (-> *in* java.io.BufferedReader. line-seq set sanity-check))
+(defn get-words [] (-> (read-line) (split #" ") set sanity-check))
 
 (defn -main
   []
