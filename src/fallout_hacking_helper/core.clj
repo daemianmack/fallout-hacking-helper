@@ -6,8 +6,10 @@
 
 (defn likeness [a b] (count (filter identity (map = a b))))
 
-(defn blue [s] (str "\u001b[1;34m" s "\u001b[0m"))
-(defn grey [s] (str "\u001b[1;30m" s "\u001b[0m"))
+(defn grey  [s] (str "\u001b[1;30m" s "\u001b[0m"))
+(defn red   [s] (str "\u001b[1;31m" s "\u001b[0m"))
+(defn green [s] (str "\u001b[1;32m" s "\u001b[0m"))
+(defn blue  [s] (str "\u001b[1;34m" s "\u001b[0m"))
 
 (defn print-relations
   [relations]
@@ -47,7 +49,9 @@
 
 (defn -main
   []
-  (println "=> Hit enter after each word. End with a Ctrl-D.")
+  (println "=> Input candidates from game.")
+  (println "=> Hit space after each word.")
+  (println "=> End by pressing the" (red "Enter") "key.")
   (let [words (get-words)]
     (loop [[candidate rels :as data] (best-candidate words)]
       (when (seq data)
@@ -55,6 +59,5 @@
         (let [likenesses     (Integer. (read-line))
               new-candidates (map second (filter #(= likenesses (first %)) rels))]
           (if (< (count new-candidates) 2)
-            (dorun (map #(->> % blue (format "=> Answer: %s") println) new-candidates))
+            (dorun (map #(->> % green (format "=> Answer: %s") println) new-candidates))
             (recur (best-candidate (set new-candidates)))))))))
-
